@@ -3,7 +3,7 @@ import LogComponent from '../components/LogComponent';
 
 const Log = () => {
     return (
-        <div className='m-4 bg-cyan-100' style={{ height: '80vh', overflowY: 'auto' }}>
+        <div className='m-6 p-3 rounded-lg ' style={{ height: '80vh', overflowY: 'auto', backgroundColor: "#090F17" }}>
             <LogComponent />
         </div>
     );
