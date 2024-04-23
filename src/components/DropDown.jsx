@@ -1,18 +1,24 @@
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
-export default function DropDowm() {
+export default function DropDowm({ setTimeData }) {
+  const [selected, setSelected] = useState("Last 5 minutes");
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Last 5 minutes
-          <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+          {selected}
+          <ChevronDownIcon
+            className="-mr-1 h-5 w-5 text-gray-400"
+            aria-hidden="true"
+          />
         </Menu.Button>
       </div>
 
@@ -29,95 +35,143 @@ export default function DropDowm() {
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  // to="/metrics"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
+                  onClick={() => {
+                    setSelected("Last 5 minutes");
+                    setTimeData({
+                      date: Date.now(),
+                      value: 5,
+                      startDate: Date.now() - 1000 * 60 * 5,
+                    });
+                  }}
                 >
                   Last 5 minutes
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  // to="/metrics"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
+                  onClick={() => {
+                    setSelected("Last 15 minutes");
+                    setTimeData({
+                      date: Date.now(),
+                      value: 15,
+                      startDate: Date.now() - 1000 * 60 * 15,
+                    });
+                  }}
                 >
                   Last 15 minutes
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  // to="/metrics"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
+                  onClick={() => {
+                    setSelected("Last 30 minutes");
+                    setTimeData({
+                      date: Date.now(),
+                      value: 30,
+                      startDate: Date.now() - 1000 * 60 * 30,
+                    });
+                  }}
                 >
                   Last 30 minutes
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  // to="/metrics"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
+                  onClick={() => {
+                    setSelected("Last 1 hour");
+                    setTimeData({
+                      date: Date.now(),
+                      value: 60,
+                      startDate: Date.now() - 1000 * 60 * 60,
+                    });
+                  }}
                 >
                   Last 1 hour
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  // to="/metrics"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
+                  onClick={() => {
+                    setSelected("Last 3 hour");
+                    setTimeData({
+                      date: Date.now(),
+                      value: 180,
+                      startDate: Date.now() - 1000 * 60 * 180,
+                    });
+                  }}
                 >
                   Last 3 hour
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="/"
+                <Link
+                  // to="/metrics"
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "block px-4 py-2 text-sm"
                   )}
+                  onClick={() => {
+                    setSelected("Last 6 hour");
+                    setTimeData({
+                      date: Date.now(),
+                      value: 360,
+                      startDate: Date.now() - 1000 * 60 * 360,
+                    });
+                  }}
                 >
                   Last 6 hour
-                </a>
+                </Link>
               )}
             </Menu.Item>
           </div>
         </Menu.Items>
       </Transition>
     </Menu>
-  )
+  );
 }

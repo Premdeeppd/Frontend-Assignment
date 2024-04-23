@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { MimicLogs } from '../mimic/api-mimic';
-import './LogComponent.css';
-import downArrow from '../assets/arrow-up-long.png';
+import React, { useEffect, useState, useRef } from "react";
+import { MimicLogs } from "../mimic/api-mimic";
+import "./LogComponent.css";
+import downArrow from "../assets/arrow-up-long.png";
 
-const LogComponent = () => {
+const LogComponent = ({ timeData }) => {
   const [logs, setLogs] = useState([]);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
   const [newLogsCount, setNewLogsCount] = useState(0);
@@ -11,17 +11,17 @@ const LogComponent = () => {
   const logContainerRef = useRef(null);
 
   useEffect(() => {
-    const startTs = Date.now() - 1000 * 60 * 5; // 5 min ago
-    const endTs = Date.now(); // now
+    const startTs = timeData.date - 1000 * 60 * timeData.value; // 5 min ago
+    const endTs = timeData.date; // now
     const limit = 100; // maximum number of logs
 
     MimicLogs.fetchPreviousLogs({ startTs, endTs, limit })
-      .then(data => setLogs(data))
-      .catch(error => console.error(error));
+      .then((data) => setLogs(data))
+      .catch((error) => console.error(error));
 
     const unsubscribe = MimicLogs.subscribeToLiveLogs((newLog) => {
       if (!isScrolledToBottom) {
-        setNewLogsCount(prevCount => prevCount + 1);
+        setNewLogsCount((prevCount) => prevCount + 1);
       }
       setLogs((prevLogs) => [...prevLogs, newLog]);
     });
@@ -35,23 +35,25 @@ const LogComponent = () => {
     if (isScrolledToBottom) {
       bottomLogRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [logs, isScrolledToBottom]);
+  }, [logs, isScrolledToBottom, timeData]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const isBottom = logContainerRef.current.scrollHeight - logContainerRef.current.scrollTop === logContainerRef.current.clientHeight;
+      const isBottom =
+        logContainerRef.current.scrollHeight -
+          logContainerRef.current.scrollTop ===
+        logContainerRef.current.clientHeight;
       setIsScrolledToBottom(isBottom);
       if (isBottom) {
         setNewLogsCount(0);
       }
     };
 
-    logContainerRef.current.addEventListener('scroll', handleScroll);
-    return () => logContainerRef.current.removeEventListener('scroll', handleScroll);
+    logContainerRef.current.addEventListener("scroll", handleScroll);
   }, []);
 
   const handleButtonClick = () => {
-    bottomLogRef.current.scrollIntoView({ behavior: 'smooth' });
+    bottomLogRef.current.scrollIntoView({ behavior: "smooth" });
     setNewLogsCount(0);
   };
 
@@ -62,17 +64,35 @@ const LogComponent = () => {
   // };
 
   return (
-    <div className="log-component-hide-scrollbar" ref={logContainerRef} style={{ overflowY: 'auto', overflowX:'auto', height: '100%' }}>
-            {logs.map((log, index) => (
-        <div key={index} style={{ whiteSpace: 'nowrap' }} >
-          <p style={{color: "#A8C3E8"}}><span style={{ color: '#5E7BAA' }}>{new Date(log.timestamp).toLocaleString()}</span>: {log.message}</p>
+    <div
+      className="log-component-hide-scrollbar"
+      ref={logContainerRef}
+      style={{ overflowY: "auto", overflowX: "auto", height: "100%" }}
+    >
+      {logs.map((log, index) => (
+        <div key={index} style={{ whiteSpace: "nowrap" }}>
+          <p style={{ color: "#A8C3E8" }}>
+            <span style={{ color: "#5E7BAA" }}>
+              {new Date(log.timestamp).toLocaleString()}
+            </span>
+            : {log.message}
+          </p>
         </div>
       ))}
-      <div style={{position: 'fixed', bottom: '60px', right: '40px'}}>
+      <div style={{ position: "fixed", bottom: "60px", right: "40px" }}>
         {newLogsCount > 1 && (
-          <button className='p-2 rounded-md' style={{backgroundColor: '#4338CA', color:'white', display: 'flex', alignItems: 'center'}} onClick={handleButtonClick} >
+          <button
+            className="p-2 rounded-md"
+            style={{
+              backgroundColor: "#4338CA",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={handleButtonClick}
+          >
             {newLogsCount} new logs
-            <img src={downArrow} alt="down arrow" className="h-4 pl-2"/>
+            <img src={downArrow} alt="down arrow" className="h-4 pl-2" />
           </button>
         )}
       </div>
