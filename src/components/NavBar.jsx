@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import React from "react";
 import logo from "../assets/logo.svg";
 import DropDowm from "./DropDown";
-import metrix from "../assets/metrics-gray.png";
-import list from "../assets/list.png";
+import "./NavBar.css";
 
 const NavBar = ({ setTimeData }) => {
   return (
@@ -14,25 +13,25 @@ const NavBar = ({ setTimeData }) => {
           <div className="flex">
             <img className="pr-4" src={logo} alt="logo" />
             <ul className="flex items-center">
-              <li>
-                <Link
+              <li className="m-2">
+                <NavLink
                   to="/metrics"
-                  className="p-2 flex items-center"
-                  style={{ color: "#4B5563" }}
+                  className="pb-1 flex items-center navlink hover:text-black border-b-2 border-transparent hover:border-blue-500 active:border-blue-500"
+                  activeClassName="active"
                 >
-                  <img src={metrix} alt="Metrics icon" className="pr-2 h-4" />
+                  <img alt="Metrics icon" className="icon pr-2 h-4" />
                   Metrics
-                </Link>
+                </NavLink>
               </li>
-              <li>
-                <Link
+              <li className="m-2">
+                <NavLink
                   to="/logs"
-                  className="p-2 flex items-center"
-                  style={{ color: "#4B5563" }}
+                  className="pb-1 flex items-center navlink hover:text-black"
+                  activeClassName="active"
                 >
-                  <img src={list} alt="List icon" className="pr-2 h-3" />
+                  <img alt="List icon" className="listicon pr-2 h-3" />
                   Logs
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>

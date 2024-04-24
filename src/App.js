@@ -1,32 +1,54 @@
-import React, { useState, createContext } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useState, createContext, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import Log from "./pages/Log";
 import Metrics from "./pages/Metrics";
-import MatricGraph from "./components/MatricGraph";
 
 export const TimeContext = createContext();
 
-function App() {
+function Main() {
   const [timeData, setTimeData] = useState({
     date: Date.now(),
     value: 5,
     startDate: Date.now() - 1000 * 60 * 5,
   });
-  // console.log(Date.now());
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setSearchParams({
+      date: String(timeData.date),
+      value: String(timeData.value),
+      startDate: String(timeData.startDate),
+    });
+  }, [timeData, setSearchParams]);
+
   return (
     <TimeContext.Provider value={{ timeData, setTimeData }}>
-      <Router>
-        <div className="App">
-          <NavBar setTimeData={setTimeData} />
-          <Routes>
-            <Route path="/logs" element={<Log />} />
-            <Route path="/metrics" element={<Metrics />} />
-          </Routes>
-        </div>
-      </Router>
+      <div className="App">
+        <NavBar setTimeData={setTimeData} />
+        <Routes>
+          <Route path="/logs" element={<Log />} />
+          <Route path="/metrics" element={<Metrics />} />
+        </Routes>
+      </div>
     </TimeContext.Provider>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Main />
+    </Router>
   );
 }
 

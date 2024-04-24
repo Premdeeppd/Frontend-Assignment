@@ -1,0 +1,32 @@
+.icon {
+  content: url("../assets/metrics-gray.png");
+}
+
+.navlink:hover .icon{
+  content: url("../assets/metrics.png");
+}
+
+.active .icon {
+  content: url("../assets/metrics.png");
+}
+
+.listicon {
+    content: url("../assets/list.png");
+  }
+  
+  .navlink:hover .listicon{
+    content: url("../assets/list-active.png");
+  }
+  
+  .active .listicon {
+    content: url("../assets/list-active.png");
+  }
+
+.navlink {
+    color: #4B5563;
+  }
+  
+  .navlink:hover, .navlink.active {
+    color: black;
+    border-bottom: 2px solid blue;
+  }
