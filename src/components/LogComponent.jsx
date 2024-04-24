@@ -11,12 +11,12 @@ const LogComponent = ({ timeData }) => {
   const logContainerRef = useRef(null);
 
   useEffect(() => {
-    const startTs = timeData.date - 1000 * 60 * timeData.value; // 5 min ago
+    const startTs = timeData.startDate; // 5 min ago
     const endTs = timeData.date; // now
     const limit = 100; // maximum number of logs
 
     MimicLogs.fetchPreviousLogs({ startTs, endTs, limit })
-      .then((data) => setLogs(data))
+      .then((data) => setLogs(data.reverse()))
       .catch((error) => console.error(error));
 
     const unsubscribe = MimicLogs.subscribeToLiveLogs((newLog) => {
@@ -28,7 +28,7 @@ const LogComponent = ({ timeData }) => {
 
     // Clean up the subscription on unmount
     return () => unsubscribe();
-  }, [isScrolledToBottom]);
+  }, [isScrolledToBottom, timeData]);
 
   useEffect(() => {
     // Scroll to bottom whenever logs change and user is scrolled to bottom
@@ -39,9 +39,11 @@ const LogComponent = ({ timeData }) => {
 
   useEffect(() => {
     const handleScroll = () => {
+      const offset = 10;
       const isBottom =
         logContainerRef.current.scrollHeight -
-          logContainerRef.current.scrollTop ===
+          logContainerRef.current.scrollTop -
+          offset <=
         logContainerRef.current.clientHeight;
       setIsScrolledToBottom(isBottom);
       if (isBottom) {
@@ -50,7 +52,7 @@ const LogComponent = ({ timeData }) => {
     };
 
     logContainerRef.current.addEventListener("scroll", handleScroll);
-  }, []);
+  }, [logs, isScrolledToBottom, timeData]);
 
   const handleButtonClick = () => {
     bottomLogRef.current.scrollIntoView({ behavior: "smooth" });
@@ -67,11 +69,15 @@ const LogComponent = ({ timeData }) => {
     <div
       className="log-component-hide-scrollbar"
       ref={logContainerRef}
-      style={{ overflowY: "auto", overflowX: "auto", height: "100%" }}
+      style={{
+        overflowY: "auto",
+        overflowX: "auto",
+        height: "100%",
+      }}
     >
       {logs.map((log, index) => (
         <div key={index} style={{ whiteSpace: "nowrap" }}>
-          <p style={{ color: "#A8C3E8" }}>
+          <p className="font-mono" style={{ color: "#A8C3E8" }}>
             <span style={{ color: "#5E7BAA" }}>
               {new Date(log.timestamp).toLocaleString()}
             </span>
@@ -79,7 +85,13 @@ const LogComponent = ({ timeData }) => {
           </p>
         </div>
       ))}
-      <div style={{ position: "fixed", bottom: "60px", right: "40px" }}>
+      <div
+        style={{
+          position: "fixed",
+          bottom: "10vh",
+          right: "40px",
+        }}
+      >
         {newLogsCount > 1 && (
           <button
             className="p-2 rounded-md"
@@ -96,7 +108,7 @@ const LogComponent = ({ timeData }) => {
           </button>
         )}
       </div>
-      <div ref={bottomLogRef} /> {/* This will be scrolled into view */}
+      <div ref={bottomLogRef} />
     </div>
   );
 };
