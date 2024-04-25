@@ -60,7 +60,7 @@ const MatricsHead = ({ timeData, setTimeData }) => {
       className="p-2 border rounded-lg rounded-b-none border-b-0"
       style={{ backgroundColor: "#FFFFFF", borderColor: "#CEE0F8" }}
     >
-      <div className="flex items-center">
+      <div className="flex items-center flex-col sm:flex-row">
         <h1 className="text-2xl font-bold">Metrics</h1>
         <DatePick timeData={timeData} setTimeData={setTimeData} />
       </div>

@@ -9,7 +9,7 @@ const NavBar = ({ setTimeData }) => {
     // Your component's JSX code goes here
     <div>
       <nav className="p-4 border-b border-gray-100">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-center ">
           <div className="flex">
             <img className="pr-4" src={logo} alt="logo" />
             <ul className="flex items-center">

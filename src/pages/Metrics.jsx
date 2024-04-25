@@ -17,11 +17,11 @@ const Metrics = () => {
         className="p-2 border rounded-lg rounded-t-none"
         style={{ backgroundColor: "#F0F7FF80", borderColor: "#CEE0F8" }}
       >
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
           <CpuUses timeData={timeData} />
           <MemoryUses timeData={timeData} />
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
           <NetworkUses timeData={timeData} />
           <DiscIops timeData={timeData} />
         </div>
